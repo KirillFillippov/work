@@ -10,8 +10,11 @@ db = SqliteDatabase('tasks.db')
 
 class Task(Model):
     title = CharField()
-    content = TextField()
-    created_at = DateField()
+    content = CharField()
+    created_at = TimeField()
+
+    class Meta:
+        database = db
 
 
 @api.route('/api/task')  # Post
@@ -21,7 +24,8 @@ class NewTask(Resource):
 
 @api.route('/api/task')  # Get
 class ListTask(Resource):
-    def get(self):
+    def get(self, title, created_at):
+        return title, created_at
 
 
 @api.route('/api/task/<task_id> ')  # Get
@@ -42,3 +46,4 @@ class DelTask(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
